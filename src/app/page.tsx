@@ -8,9 +8,7 @@ export default function Home() {
         <h1 className={styles.title}>
           Project setup is ready for the test task.
         </h1>
-        <p className={styles.description}>
-         
-        </p>
+        <p className={styles.description}></p>
       </section>
     </main>
   );
