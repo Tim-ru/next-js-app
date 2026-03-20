@@ -1,0 +1,104 @@
+@use "@/styles/variables" as *;
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid rgb(42 36 26 / 0.08);
+  background: linear-gradient(
+    135deg,
+    rgb(255 252 245 / 0.94),
+    rgb(255 248 233 / 0.9)
+  );
+  backdrop-filter: blur(18px);
+}
+
+.inner {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand {
+  display: grid;
+  gap: 4px;
+}
+
+.brandMark {
+  color: $color-text-primary;
+  font-size: clamp(1.25rem, 2vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.brandNote {
+  color: $color-text-secondary;
+  font-size: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userName {
+  color: $color-text-primary;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.loginLink,
+.logoutButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.loginLink {
+  color: #fff8ee;
+  background-color: $color-accent;
+  box-shadow: 0 12px 24px rgb(155 95 29 / 0.16);
+}
+
+.logoutButton {
+  border: 1px solid rgb(155 95 29 / 0.2);
+  color: $color-text-primary;
+  background-color: transparent;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: wait;
+    opacity: 0.7;
+  }
+}
+
+.loginLink:hover,
+.logoutButton:hover {
+  transform: translateY(-1px);
+}
+
+@media (width <= 640px) {
+  .inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}

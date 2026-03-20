@@ -1,0 +1,38 @@
+@use "@/styles/variables" as *;
+
+.footer {
+  border-top: 1px solid rgb(42 36 26 / 0.08);
+  background-color: rgb(255 253 248 / 0.84);
+}
+
+.inner {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  padding: 18px 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: $color-text-secondary;
+  font-size: 0.95rem;
+}
+
+.year {
+  color: $color-text-primary;
+  font-weight: 700;
+}
+
+.session {
+  text-align: right;
+}
+
+@media (width <= 640px) {
+  .inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .session {
+    text-align: left;
+  }
+}

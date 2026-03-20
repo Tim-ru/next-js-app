@@ -1,89 +1,196 @@
 @use "@/styles/variables" as *;
-@use "@/styles/mixins" as *;
 
 .page {
-  @include page-shell;
+  width: 100%;
+  padding: 40px 20px 64px;
+}
+
+.container {
+  width: min(100%, 1200px);
+  margin: 0 auto;
+  display: grid;
+  gap: 32px;
 }
 
 .hero {
-  max-width: 720px;
-  padding: 48px 24px;
-  border: 1px solid rgb(42 36 26 / 0.08);
-  border-radius: 28px;
-  background-color: rgb(255 253 248 / 0.88);
-  box-shadow: 0 18px 52px rgb(81 61 24 / 0.08);
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(280px, 0.9fr);
+  gap: 20px;
 }
 
-.eyebrow {
+.copy,
+.summaryCard,
+.catalog,
+.card,
+.stateCard,
+.skeletonCard {
+  border: 1px solid rgb(42 36 26 / 0.08);
+  border-radius: 28px;
+  background-color: rgb(255 253 248 / 0.86);
+  box-shadow: 0 18px 52px rgb(81 61 24 / 0.07);
+}
+
+.copy {
+  padding: 40px 28px;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgb(229 196 122 / 0.2),
+      transparent 38%
+    ),
+    linear-gradient(150deg, rgb(255 253 248 / 0.95), rgb(255 247 232 / 0.84));
+}
+
+.summaryCard {
+  padding: 32px 24px;
+  display: grid;
+  align-content: end;
+  gap: 10px;
+  background: linear-gradient(
+    160deg,
+    rgb(255 250 241 / 0.98),
+    rgb(255 255 255 / 0.74)
+  );
+}
+
+.eyebrow,
+.sectionEyebrow,
+.summaryLabel,
+.category {
   display: inline-block;
-  margin-bottom: 16px;
   color: $color-accent;
-  font-size: 0.9rem;
+  font-size: 0.82rem;
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.eyebrow {
+  margin-bottom: 16px;
 }
 
 .title {
   margin: 0 0 16px;
   color: $color-text-primary;
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  line-height: 1.05;
+  font-size: clamp(2.2rem, 5vw, 4.2rem);
+  line-height: 0.98;
 }
 
 .description {
-  max-width: 58ch;
-  margin: 0 0 24px;
+  max-width: 56ch;
+  margin: 0;
   color: $color-text-secondary;
   font-size: 1.05rem;
   line-height: 1.7;
 }
 
-.statusCard {
-  padding: 24px;
-  border: 1px solid rgb(155 95 29 / 0.14);
-  border-radius: 22px;
-  background: linear-gradient(
-    135deg,
-    rgb(255 250 241 / 0.95),
-    rgb(255 255 255 / 0.72)
-  );
+.summaryLabel {
+  margin-bottom: 2px;
 }
 
-.statusLabel {
-  margin: 0 0 12px;
-  color: $color-accent;
-  font-size: 0.85rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.statusContent {
-  display: grid;
-  gap: 18px;
-}
-
-.statusText {
-  margin: 0;
+.summaryValue {
   color: $color-text-primary;
-  font-size: 1rem;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1;
+}
+
+.summaryText {
+  margin: 0;
+  color: $color-text-secondary;
   line-height: 1.6;
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+.catalog {
+  padding: 28px;
 }
 
-.primaryAction,
-.secondaryAction {
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sectionEyebrow {
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  color: $color-text-primary;
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card,
+.skeletonCard {
+  overflow: hidden;
+}
+
+.media,
+.skeletonMedia {
+  aspect-ratio: 1 / 1;
+  background: radial-gradient(
+    circle at top,
+    rgb(255 255 255 / 0.95),
+    rgb(240 231 216)
+  );
+}
+
+.media {
+  padding: 22px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cardContent {
+  display: grid;
+  gap: 12px;
+  padding: 22px;
+}
+
+.category {
+  color: rgb(155 95 29 / 0.84);
+}
+
+.productTitle {
+  margin: 0;
+  color: $color-text-primary;
+  font-size: 1.05rem;
+  line-height: 1.45;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.price {
+  color: $color-text-primary;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.cartButton,
+.retryButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 48px;
-  padding: 0 18px;
+  min-height: 42px;
+  padding: 0 16px;
   border-radius: 999px;
   font-weight: 700;
   transition:
@@ -92,20 +199,119 @@
     background-color 0.2s ease;
 }
 
-.primaryAction {
+.cartButton {
+  border: none;
   color: #fff8ee;
   background-color: $color-accent;
-  box-shadow: 0 14px 28px rgb(155 95 29 / 0.16);
+  box-shadow: 0 12px 24px rgb(155 95 29 / 0.16);
+  cursor: pointer;
 }
 
-.secondaryAction {
+.stateCard {
+  padding: 28px;
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+}
+
+.stateTitle {
+  margin: 0 0 12px;
+  color: $color-text-primary;
+  font-size: 1.2rem;
+}
+
+.stateText {
+  margin: 0;
+  color: $color-text-secondary;
+  line-height: 1.6;
+}
+
+.retryButton {
   border: 1px solid rgb(155 95 29 / 0.22);
   color: $color-text-primary;
   background-color: transparent;
   cursor: pointer;
 }
 
-.primaryAction:hover,
-.secondaryAction:hover {
+.cartButton:hover,
+.retryButton:hover {
   transform: translateY(-1px);
+}
+
+.skeletonCard {
+  padding-bottom: 22px;
+}
+
+.skeletonMedia,
+.skeletonLine {
+  position: relative;
+  overflow: hidden;
+  background-color: rgb(230 220 202 / 0.7);
+}
+
+.skeletonMedia::after,
+.skeletonLine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgb(255 255 255 / 0.55),
+    transparent
+  );
+  animation: shimmer 1.4s infinite;
+}
+
+.skeletonLine {
+  height: 14px;
+  margin: 18px 22px 0;
+  border-radius: 999px;
+}
+
+.shortLine {
+  width: 68%;
+}
+
+.tinyLine {
+  width: 42%;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (width <= 900px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .summaryCard {
+    padding: 28px;
+  }
+}
+
+@media (width <= 640px) {
+  .page {
+    padding-inline: 16px;
+  }
+
+  .copy,
+  .catalog,
+  .summaryCard,
+  .stateCard {
+    padding: 24px 20px;
+  }
+
+  .priceRow {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cartButton {
+    width: 100%;
+  }
 }
