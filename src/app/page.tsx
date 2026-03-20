@@ -11,12 +11,13 @@ import type { Product } from "@/types/product.types";
 import styles from "./page.module.scss";
 
 const PRODUCT_LIMIT = 12;
+const priceFormatter = new Intl.NumberFormat("en-US", {
+  style: "currency",
+  currency: "USD",
+});
 
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-  }).format(price);
+  return priceFormatter.format(price);
 }
 
 function formatCategory(category: string): string {

@@ -56,7 +56,12 @@ function readStoredSession(): StoredAuthSession | null {
       typeof parsedValue.accessToken !== "string" ||
       !parsedValue.user ||
       typeof parsedValue.user.id !== "number" ||
-      typeof parsedValue.user.username !== "string"
+      typeof parsedValue.user.username !== "string" ||
+      typeof parsedValue.user.email !== "string" ||
+      typeof parsedValue.user.firstName !== "string" ||
+      typeof parsedValue.user.lastName !== "string" ||
+      typeof parsedValue.user.gender !== "string" ||
+      typeof parsedValue.user.image !== "string"
     ) {
       return null;
     }

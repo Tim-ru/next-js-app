@@ -13,6 +13,12 @@ interface FieldErrors {
   password?: string;
 }
 
+interface ValidationResult {
+  isValid: boolean;
+  normalizedUsername: string;
+  normalizedPassword: string;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const isAuthInitialized = useAuthStore((state) => state.isAuthInitialized);
@@ -31,8 +37,9 @@ export default function LoginPage() {
     }
   }, [isAuthInitialized, isAuthenticated, router]);
 
-  function validateForm(): { isValid: boolean; normalizedUsername: string } {
+  function validateForm(): ValidationResult {
     const normalizedUsername = username.trim();
+    const normalizedPassword = password.trim();
     const nextErrors: FieldErrors = {};
 
     if (!normalizedUsername) {
@@ -41,9 +48,9 @@ export default function LoginPage() {
       nextErrors.username = "Username must contain at least 3 characters.";
     }
 
-    if (!password.trim()) {
+    if (!normalizedPassword) {
       nextErrors.password = "Enter your password.";
-    } else if (password.length < 3) {
+    } else if (normalizedPassword.length < 3) {
       nextErrors.password = "Password must contain at least 3 characters.";
     }
 
@@ -52,6 +59,7 @@ export default function LoginPage() {
     return {
       isValid: Object.keys(nextErrors).length === 0,
       normalizedUsername,
+      normalizedPassword,
     };
   }
 
@@ -94,7 +102,7 @@ export default function LoginPage() {
 
     clearAuthError();
 
-    const { isValid, normalizedUsername } = validateForm();
+    const { isValid, normalizedUsername, normalizedPassword } = validateForm();
 
     if (!isValid) {
       return;
@@ -103,7 +111,7 @@ export default function LoginPage() {
     try {
       await login({
         username: normalizedUsername,
-        password,
+        password: normalizedPassword,
         expiresInMins: 60,
       });
 
@@ -122,7 +130,7 @@ export default function LoginPage() {
           <span className={styles.eyebrow}>Login</span>
           <h1 className={styles.title}>Redirecting to the home page</h1>
           <p className={styles.helperText}>
-            Saved session is active, so the login route is no longer needed.
+            Active session detected. Returning to the catalog.
           </p>
         </section>
       </main>
@@ -133,13 +141,10 @@ export default function LoginPage() {
     <main className={styles.page}>
       <section className={styles.card}>
         <span className={styles.eyebrow}>Login</span>
-        <h1 className={styles.title}>
-          Sign in to restore the protected session
-        </h1>
+        <h1 className={styles.title}>Login to your account</h1>
         <p className={styles.description}>
-          localStorage hydration runs only on the client, so this page waits for
-          auth bootstrap before showing the form and redirects active sessions
-          back to the home page.
+          Enter your DummyJSON username and password to access authorized user
+          actions in the product catalog.
         </p>
 
         {!isAuthInitialized ? (
@@ -212,7 +217,8 @@ export default function LoginPage() {
               </p>
             ) : (
               <p className={styles.helperText}>
-                Use any valid DummyJSON credentials.
+                Use valid DummyJSON credentials, for example `emilys` /
+                `emilyspass`.
               </p>
             )}
 
@@ -222,7 +228,7 @@ export default function LoginPage() {
                 type="submit"
                 disabled={isFormDisabled}
               >
-                {isAuthLoading ? "Signing in..." : "Sign in"}
+                {isAuthLoading ? "Logging in..." : "Login"}
               </button>
               <Link className={styles.secondaryAction} href="/">
                 Back home
