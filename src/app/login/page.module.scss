@@ -10,8 +10,11 @@
   padding: 40px 28px;
   border: 1px solid rgb(42 36 26 / 0.08);
   border-radius: 28px;
-  background:
-    linear-gradient(160deg, rgb(255 253 248 / 0.95), rgb(255 249 239 / 0.82));
+  background: linear-gradient(
+    160deg,
+    rgb(255 253 248 / 0.95),
+    rgb(255 249 239 / 0.82)
+  );
   box-shadow: 0 18px 52px rgb(81 61 24 / 0.08);
 }
 
@@ -71,10 +74,25 @@
     outline: none;
     box-shadow: 0 0 0 4px rgb(155 95 29 / 0.1);
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.inputError {
+  border-color: #b42318;
+
+  &:focus {
+    border-color: #b42318;
+    box-shadow: 0 0 0 4px rgb(180 35 24 / 0.12);
+  }
 }
 
 .helperText,
-.errorMessage {
+.errorMessage,
+.fieldError {
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.6;
@@ -85,6 +103,10 @@
 }
 
 .errorMessage {
+  color: #b42318;
+}
+
+.fieldError {
   color: #b42318;
 }
 

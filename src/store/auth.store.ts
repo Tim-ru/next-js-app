@@ -2,7 +2,7 @@
 
 import { create, type StoreApi } from "zustand";
 
-import { setAccessToken } from "@/lib/axios";
+import { getApiErrorMessage, setAccessToken } from "@/lib/axios";
 import { authService } from "@/services/auth.service";
 import type { AuthUser, LoginRequest, LoginResponse } from "@/types/auth.types";
 
@@ -17,10 +17,13 @@ interface AuthState {
   accessToken: string | null;
   user: AuthUser | null;
   isAuthenticated: boolean;
+  isAuthLoading: boolean;
   isAuthInitialized: boolean;
+  authError: string | null;
   initAuth: () => void;
   login: (payload: LoginRequest) => Promise<void>;
   logout: () => void;
+  clearAuthError: () => void;
 }
 
 function toAuthUser(response: LoginResponse): AuthUser {
@@ -98,31 +101,83 @@ export const useAuthStore = create<AuthState>((set) => ({
   accessToken: null,
   user: null,
   isAuthenticated: false,
+  isAuthLoading: true,
   isAuthInitialized: false,
+  authError: null,
 
   initAuth: () => {
-    const session = readStoredSession();
+    set({
+      isAuthLoading: true,
+      authError: null,
+    });
 
-    if (!session) {
+    try {
+      const session = readStoredSession();
+
+      if (!session) {
+        persistSession(null);
+      }
+
+      applySession(session, set);
+    } catch {
       persistSession(null);
+      applySession(null, set);
+      set({
+        authError: "Failed to restore the saved session. Please sign in again.",
+      });
+    } finally {
+      set({
+        isAuthLoading: false,
+      });
     }
-
-    applySession(session, set);
   },
 
   login: async (payload) => {
-    const response = await authService.login(payload);
-    const session = {
-      accessToken: response.accessToken,
-      user: toAuthUser(response),
-    };
+    set({
+      isAuthLoading: true,
+      authError: null,
+    });
 
-    persistSession(session);
-    applySession(session, set);
+    try {
+      const response = await authService.login(payload);
+      const session = {
+        accessToken: response.accessToken,
+        user: toAuthUser(response),
+      };
+
+      persistSession(session);
+      applySession(session, set);
+    } catch (error) {
+      set({
+        authError: getApiErrorMessage(error),
+      });
+      throw error;
+    } finally {
+      set({
+        isAuthLoading: false,
+      });
+    }
   },
 
   logout: () => {
-    persistSession(null);
-    applySession(null, set);
+    set({
+      isAuthLoading: true,
+      authError: null,
+    });
+
+    try {
+      persistSession(null);
+      applySession(null, set);
+    } finally {
+      set({
+        isAuthLoading: false,
+      });
+    }
+  },
+
+  clearAuthError: () => {
+    set({
+      authError: null,
+    });
   },
 }));

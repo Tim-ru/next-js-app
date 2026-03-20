@@ -26,11 +26,14 @@ export default function Home() {
         <div className={styles.statusCard}>
           <p className={styles.statusLabel}>Session state</p>
           {!isAuthInitialized ? (
-            <p className={styles.statusText}>Restoring session from storage...</p>
+            <p className={styles.statusText}>
+              Restoring session from storage...
+            </p>
           ) : isAuthenticated && user ? (
             <div className={styles.statusContent}>
               <p className={styles.statusText}>
-                Signed in as <strong>{user.firstName}</strong> (@{user.username})
+                Signed in as <strong>{user.firstName}</strong> (@{user.username}
+                )
               </p>
               <div className={styles.actions}>
                 <button
