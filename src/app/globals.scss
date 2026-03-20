@@ -1,0 +1,38 @@
+@use "@/styles/variables" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  color: $color-text-primary;
+  background:
+    radial-gradient(circle at top, rgb(229 196 122 / 0.24), transparent 34%),
+    linear-gradient(180deg, #f7f0e1 0%, #f5f1eb 52%, #f2ede5 100%);
+  font-family: "Trebuchet MS", "Segoe UI", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
